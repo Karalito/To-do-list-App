@@ -3,6 +3,9 @@ from django.db import models
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 from .models import Task
 
 class TaskList(ListView):
@@ -11,5 +14,21 @@ class TaskList(ListView):
 
 class TaskDetail(DetailView):
     model = Task
-    context_object_name = "task"
+    context_object_name = 'task'
     template_name = 'base/task.html'
+
+class TaskCreate(CreateView):
+    model = Task
+    fields = '__all__' # Using all fields
+    # When user creates an item he gets send back to tasks list
+    success_url = reverse_lazy('tasks')
+
+class TaskUpdate (UpdateView):
+    model = Task
+    fields = '__all__'
+    success_url = reverse_lazy('tasks')
+
+class TaskDelete(DeleteView):
+    model = Task
+    context_object_name = 'task'
+    success_url = reverse_lazy('tasks')
