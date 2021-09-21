@@ -34,7 +34,7 @@ img{
     color: #fff;
     padding: 10px;
     border-radius: 5px 5px 0 0;
-    background: linear-gradient(90deg, #693C72 0%, #C15050 43%, #D97642 100%);
+    background: linear-gradient(90deg, #C15050 0%, #D97642 43%, #D49D42 100%);
 }
 
 .header-bar a{
@@ -99,7 +99,7 @@ img{
 input[type=text],
 input[type=password],
 textarea{
-    border: 1px solid tomato;
+    border: 1px solid #D97642;
     border-radius: 5px;
     padding: 10px;
     width: 90%;
@@ -111,12 +111,17 @@ label{
 }
 
 .button{
-    border: 1px solid tomato;
+    border: 1px solid #D97642;
     background-color: #FAFAFA;
-    color: tomato;
+    color: #D97642;
     padding: 10px;
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
+}
+
+/* Add task form */
+.card-body{
+    padding: 20px;
 }
