@@ -1,6 +1,7 @@
+from django.contrib.auth import views
 from base.models import Task
 from django.urls import path
-from .views import CustomLoginView, RegisterPage, TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete
+from .views import CustomLoginView, RegisterPage, TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete, TaskExport
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('task-create/', TaskCreate.as_view(), name='task-create'),
     path('task-update/<int:pk>/', TaskUpdate.as_view(), name='task-update'),
     path('task-delete/<int:pk>/', TaskDelete.as_view(), name='task-delete'),
+    path('export-data/', TaskExport.as_view(), name='export-data'),
 ]

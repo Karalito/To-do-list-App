@@ -1,7 +1,9 @@
-from django.forms import forms
-from base.models import Task
+from django.contrib.auth.models import User
 from django.db import models
-from django.shortcuts import redirect, render
+from django.forms.forms import Form
+from base.resources import TaskResource
+from base.models import Task
+from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
@@ -12,7 +14,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from tablib import Dataset
+from .resources import TaskResource
 from .models import Task
+from django.views import View
 
 class CustomLoginView(LoginView):
     template_name = 'base/login.html'
@@ -81,3 +88,37 @@ class TaskDelete(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('tasks')
+
+class TaskExport(LoginRequiredMixin, View):
+    model = Task
+    template_name = 'base/export_data.html'
+    success_url = reverse_lazy('tasks')
+    context_object_name = 'tasks'
+
+    def export_data(self, request):
+
+        if request.method == 'POST':
+            file_format = request.POST['file-format']
+            task_resource = TaskResource()
+            queryset = Task.objects.filter(user=self.request.user)
+            dataset = task_resource.export(queryset)
+            if file_format == 'CSV':
+                response = HttpResponse(dataset.csv, content_type= 'text/csv')
+                response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+                return response
+            elif file_format == 'JSON':
+                response = HttpResponse(dataset.json, content_type='application/json')
+                response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+                return response
+            elif file_format == 'XLS (Excel)':
+                response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+                response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+                return response
+            
+        return render(request, self.template_name)
+
+    def get(self, request):
+       return self.export_data(request)
+
+    def post(self, request):
+       return self.export_data(request)
