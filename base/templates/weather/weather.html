@@ -1,0 +1,36 @@
+{% extends 'base/main.html' %}
+{% block content %}
+<body>
+  <div class="header-bar" style="display: block;">
+    <a href="{% url 'tasks' %}">&#8592; Back</a>
+    <h1 style="display: block;">Weather</h1>
+  </div>
+  <br />
+  <br />
+  <div class="">
+    <form method="post" class="col-md-6 col-md-offset-3">
+      {% csrf_token %}
+      <div id="search-add-wrapper">
+        <input type="text" class="form-control" name="city" placeholder="Search Example: 'Tokyo'" required="True">
+        <div id="search-add-wrapper">
+            <input type="submit" value="Search" class="button">
+          </button>
+        </div>
+        <form>
+    </div>
+  <div class="task-wrapper">
+    {% if country_code and coordinate and temp and pressure and humidity %}
+    <div class="task-title" style="display: block;">
+      <h3>Country code : {{country_code}}</h1>
+        <h5>Coordinates : {{coordinate}}</style></h5>
+        <hr>
+        <h5>Temperature : {{temp}}</h5>
+        <hr>
+        <h5>Pressure : {{pressure}} </h5>
+        <hr>
+        <h5>Humidity : {{humidity}}</h5>
+        <hr>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}

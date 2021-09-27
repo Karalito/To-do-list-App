@@ -8,6 +8,7 @@
         <!--Provides how many incompleted tasks we have and pluralizes 
             word 'task' if there's more than 1 task incompleted-->
         <h3>You have <i> {{count}} </i> incomplete task{{count|pluralize:"s"}}</h3>
+        
     </div>
 
     {% if request.user.is_authenticated %}
@@ -55,5 +56,6 @@
     {% if tasks %}
     <a class="export-link" href="{% url 'export-data' %}">Export</a>
     {% endif %}
+    <h4><a href="{% url 'weather' %}">Check weather here!</a></h4>
 </div>
 {% endblock content%}
